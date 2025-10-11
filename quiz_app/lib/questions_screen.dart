@@ -4,7 +4,9 @@ import 'package:quiz_app/answer_button.dart';
 import 'package:quiz_app/data/questions.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key});
+  const QuestionsScreen({super.key, required this.onSelectAnswer});
+
+  final void Function(String answer) onSelectAnswer;
 
   @override
   State<StatefulWidget> createState() {
@@ -15,9 +17,8 @@ class QuestionsScreen extends StatefulWidget {
 class _QuestionsScreenState extends State<QuestionsScreen> {
   var currentQuestionIdx = 0;
 
-  void answerQuestion() {
-    // currentQuestionIdx = currentQuestionIdx + 1;
-    // currentQuestionIdx += 1;
+  void answerQuestion(String selectedAnswer) {
+    widget.onSelectAnswer('...');
     setState(() {
       currentQuestionIdx++;
     });
@@ -45,8 +46,12 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
             ),
             const SizedBox(height: 30),
             ...currentQuestion.getShuffledAnswers().map((answer) {
-              // poll out ...
-              return AnswerButton(onTap: answerQuestion, answerText: answer);
+              return AnswerButton(
+                onTap: () {
+                  answerQuestion(answer);
+                },
+                answerText: answer,
+              );
             }),
           ],
         ),
