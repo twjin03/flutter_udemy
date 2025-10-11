@@ -12,17 +12,11 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
-  Widget? activeScreen; // 처음에는 null
-
-  @override
-  void initState() {
-    activeScreen = StartScreen(switchScreen); // 초기 값 지정
-    super.initState();
-  }
+  var activeScreen = 'start-screen';
 
   void switchScreen() {
     setState(() {
-      activeScreen = const QuestionsScreen();
+      activeScreen = 'questions-screen';
     });
   }
 
@@ -41,7 +35,10 @@ class _QuizState extends State<Quiz> {
               end: Alignment.bottomRight,
             ),
           ),
-          child: activeScreen,
+          child:
+              activeScreen == 'start-screen'
+                  ? StartScreen(switchScreen)
+                  : const QuestionsScreen(),
         ),
       ),
     );
