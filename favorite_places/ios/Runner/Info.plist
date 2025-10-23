@@ -45,5 +45,15 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- ===== Image Picker 권한 안내 문구 ===== -->
+	<!-- 사진 보관함 접근 (필수: App Store 정책 상 항목 존재 필요) -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>사진 선택 및 업로드를 위해 사진 보관함 접근 권한이 필요합니다.</string>
+	<!-- 카메라 접근 (카메라로 촬영 시 필요) -->
+	<key>NSCameraUsageDescription</key>
+	<string>사진/동영상 촬영을 위해 카메라 접근 권한이 필요합니다.</string>
+	<!-- 마이크 접근 (동영상 촬영 시 오디오 녹음이 필요할 때) -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>동영상 촬영 시 오디오 녹음을 위해 마이크 접근 권한이 필요합니다.</string>
 </dict>
 </plist>
