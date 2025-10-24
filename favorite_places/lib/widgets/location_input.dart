@@ -11,8 +11,62 @@ class LocationInput extends StatefulWidget {
 }
 
 class _LocationInputState extends State<LocationInput> {
+  Location? _pickedLocation;
+  var _isGettingLocation = false;
+
+  void _getCurrentLoction() async {
+    setState(() {
+      _isGettingLocation = true;
+    });
+
+    Location location = Location();
+
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    LocationData locationData;
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        return;
+      }
+    }
+
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    setState(() {
+      _isGettingLocation = true;
+    });
+
+    locationData = await location.getLocation();
+
+    setState(() {
+      _isGettingLocation = false;
+    });
+
+    print(locationData.latitude);
+    print(locationData.longitude);
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget previewContent = Text(
+      '위치가 선택되지 않았습니다.',
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+        color: Theme.of(context).colorScheme.onBackground,
+      ),
+    );
+
+    if (_isGettingLocation) {
+      previewContent = const CircularProgressIndicator();
+    }
     return Column(
       children: [
         Container(
@@ -25,19 +79,13 @@ class _LocationInputState extends State<LocationInput> {
               color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
             ),
           ),
-          child: Text(
-            '위치가 선택되지 않았습니다.',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-          ),
+          child: previewContent,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton.icon(
-              onPressed: () {},
+              onPressed: _getCurrentLoction,
               label: const Text('현재 위치 가져오기'),
               icon: const Icon(Icons.location_on),
             ),
