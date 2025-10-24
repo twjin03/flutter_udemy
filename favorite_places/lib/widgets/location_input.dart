@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+import 'package:location/location.dart';
+
+class LocationInput extends StatefulWidget {
+  const LocationInput({super.key});
+
+  @override
+  State<LocationInput> createState() {
+    return _LocationInputState();
+  }
+}
+
+class _LocationInputState extends State<LocationInput> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          height: 170,
+          width: double.infinity,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 1,
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            ),
+          ),
+          child: Text(
+            '위치가 선택되지 않았습니다.',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TextButton.icon(
+              onPressed: () {},
+              label: const Text('현재 위치 가져오기'),
+              icon: const Icon(Icons.location_on),
+            ),
+            TextButton.icon(
+              onPressed: () {},
+              label: const Text('지도에서 선택'),
+              icon: const Icon(Icons.map),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
